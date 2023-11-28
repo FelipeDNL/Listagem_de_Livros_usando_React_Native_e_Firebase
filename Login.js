@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, Button, TextInput } from 'react-native';
 import { getAuth, signInWithEmailAndPassword} from 'firebase/auth';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import BottomTabNavigator from './BottomTabNavigator';
 import app from './Firebase';
 
 const auth = getAuth(app);
