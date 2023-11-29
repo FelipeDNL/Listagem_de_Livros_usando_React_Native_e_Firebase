@@ -1,8 +1,7 @@
-// BookListScreen.js
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Button } from 'react-native';
 import { collection, query, getDocs } from 'firebase/firestore';
-import { db } from './Firebase'; // Importe sua configuração do Firebase
+import { db } from './Firebase';
 
 const Lista = () => {
     const [livros, setLivros] = useState([]);
@@ -13,12 +12,13 @@ const Lista = () => {
   
     const read = async () => {
       const livrosArray = [];
-      const q = query(collection(db, "Livros")); // Certifique-se de ajustar o caminho da coleção
+      const q = query(collection(db, "Livros"));
   
       try {
         const querySnapshot = await getDocs(q);
   
         querySnapshot.forEach((doc) => {
+
           const livro = {
             id: doc.id,
             titulo: doc.data().titulo,
@@ -33,16 +33,22 @@ const Lista = () => {
         console.error('Erro ao buscar os livros:', error.message);
       }
     };
+
+    const handleRefresh = () => {
+      read();
+    };
   
     return (
       <View style={styles.container}>
-        <Text>Lista de Livros</Text>
+        <View style={{flex: 0.0900, alignItems: 'center', margin: 20}}>
+          <Button title="Atualizar Lista" onPress={handleRefresh}/>
+        </View>
         <FlatList
           data={livros}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <View style={styles.livroItem}>
-              <Text>{item.titulo}</Text>
+            <View style={styles.bookItem}>
+              <Text>Titulo: {item.titulo}</Text>
               <Text>Autor: {item.autor}</Text>
             </View>
           )}
@@ -55,14 +61,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
   },
   bookItem: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-    paddingVertical: 10,
-    width: '80%',
+    flex: 1,
+    borderWidth: 2,
+    borderRadius: 10,
+    padding: 10,
+    margin: 10,
     marginBottom: 5,
+    alignItems: 'center'
   },
 });
 

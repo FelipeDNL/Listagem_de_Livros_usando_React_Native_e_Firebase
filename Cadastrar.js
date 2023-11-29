@@ -1,4 +1,3 @@
-// AddBookScreen.js
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { addDoc, collection } from 'firebase/firestore';
@@ -22,7 +21,6 @@ const Cadastrar = () => {
 
   return (
     <View style={styles.container}>
-      <Text>Cadastrar Livro</Text>
       <TextInput
         style={styles.input}
         placeholder="Título"
@@ -49,7 +47,7 @@ const styles = StyleSheet.create({
   input: {
     width: '80%',
     height: 40,
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 10,

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Button, TextInput } from 'react-native';
+import { View, Text, Button, TextInput, Alert } from 'react-native';
 import { getAuth, signInWithEmailAndPassword} from 'firebase/auth';
 import app from './Firebase';
 
@@ -13,7 +13,7 @@ export default function Login ({ navigation }) {
     signInWithEmailAndPassword(auth, email, senha)
       .then((userCredential) => {
         const user = userCredential.user;
-        navigation.navigate('BottomTabNavigator');
+        navigation.navigate('Deslogar');
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -21,8 +21,13 @@ export default function Login ({ navigation }) {
       })
   };
 
+  const handlePress = () => {
+    navigation.navigate('RegistrarConta')
+  };
+
   return (
-    <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+    <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+      <Text style={{fontWeight: 'bold',fontSize: 50, bottom: 15}}>Login</Text>
       <TextInput
         style={{width: '80%',
         height: 40,
@@ -44,9 +49,13 @@ export default function Login ({ navigation }) {
         secureTextEntry={true}
         onChangeText={(text) => setSenha(text)}/>
 
-      <Button 
+      <Button
         title="Login" 
         onPress={handleLogin} />
+      <Text
+        style={{top: 10, color: 'blue', textDecorationLine: 'underline' }}
+        onPress={handlePress}
+      >Não possui conta? Registre-se</Text>
     </View>
   );
 };
