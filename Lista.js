@@ -1,26 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, Button } from 'react-native';
+import { View, Text, FlatList, Button } from 'react-native';
 import { collection, query, getDocs } from 'firebase/firestore';
 import { db } from './Firebase';
 
-const Lista = () => {
+export default function Lista () {
     const [livros, setLivros] = useState([]);
   
     useEffect(() => {
-      read();
+      ler();
     }, []);
   
-    const read = async () => {
+    const ler = async () => {
       const livrosArray = [];
-      const q = query(collection(db, "Livros"));
+      const consulta = query(collection(db, "Livros"));
+      var count = 1;
   
       try {
-        const querySnapshot = await getDocs(q);
+        const resultConsulta = await getDocs(consulta);
   
-        querySnapshot.forEach((doc) => {
+        resultConsulta.forEach((doc) => {
 
           const livro = {
-            id: doc.id,
+            id: "Livro " + count++,
             titulo: doc.data().titulo,
             autor: doc.data().autor,
           };
@@ -34,20 +35,21 @@ const Lista = () => {
       }
     };
 
-    const handleRefresh = () => {
-      read();
+    const handleAtualizar = () => {
+      ler();
     };
   
     return (
-      <View style={styles.container}>
+      <View style={{flex: 1, justifyContent: 'center',}}>
         <View style={{flex: 0.0900, alignItems: 'center', margin: 20}}>
-          <Button title="Atualizar Lista" onPress={handleRefresh}/>
+          <Button title="Atualizar Lista" onPress={handleAtualizar}/>
         </View>
         <FlatList
           data={livros}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <View style={styles.bookItem}>
+            <View style={{flex: 1, borderWidth: 2, borderRadius: 10, padding: 10, margin: 10, marginBottom: 5, alignItems: 'center'}}>
+              <Text style={{fontWeight: 'bold'}}>{item.id}</Text>
               <Text>Titulo: {item.titulo}</Text>
               <Text>Autor: {item.autor}</Text>
             </View>
@@ -56,21 +58,3 @@ const Lista = () => {
       </View>
     );
   };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  bookItem: {
-    flex: 1,
-    borderWidth: 2,
-    borderRadius: 10,
-    padding: 10,
-    margin: 10,
-    marginBottom: 5,
-    alignItems: 'center'
-  },
-});
-
-export default Lista;

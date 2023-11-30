@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, TextInput, Button, } from 'react-native';
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from './Firebase';
 
-const Cadastrar = () => {
+export default function Cadastrar () {
   const [autor, setAutor] = useState('');
   const [titulo, setTitulo] = useState('');
 
-  const handleAddBook = async () => {
+  const handleCadastrar = async () => {
     try {
         await addDoc(collection(db, 'Livros'), {
         autor: autor,
@@ -20,38 +20,20 @@ const Cadastrar = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <TextInput
-        style={styles.input}
+        style={{width: '80%', height: 40, borderWidth: 2, borderRadius: 5, paddingHorizontal: 10, marginBottom: 10,}}
         placeholder="Título"
         value={titulo}
         onChangeText={(text) => setTitulo(text)}
       />
       <TextInput
-        style={styles.input}
+        style={{width: '80%', height: 40, borderWidth: 2, borderRadius: 5, paddingHorizontal: 10, marginBottom: 10,}}
         placeholder="Autor"
         value={autor}
         onChangeText={(text) => setAutor(text)}
       />
-      <Button title="Cadastrar Livro" onPress={handleAddBook} />
+      <Button title="Cadastrar Livro" onPress={handleCadastrar} />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  input: {
-    width: '80%',
-    height: 40,
-    borderWidth: 2,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    marginBottom: 10,
-  },
-});
-
-export default Cadastrar;

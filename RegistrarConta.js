@@ -1,12 +1,12 @@
 // RegistroScreen.js
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Snackbar } from 'react-native-paper';
 import { createUserWithEmailAndPassword} from 'firebase/auth';
 import { auth } from './Firebase';
 
-const RegistrarConta = () => {
+export default function RegistrarConta () {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -33,11 +33,11 @@ const RegistrarConta = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.titulo}>Registro de Conta</Text>
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Text style={{fontSize: 20, fontWeight: 'bold', marginBottom: 20,}}>Registro de Conta</Text>
 
       <TextInput
-        style={styles.input}
+        style={{width: '80%', height: 40, borderWidth: 1, borderRadius: 5, paddingHorizontal: 10, marginBottom: 10,}}
         placeholder="E-mail"
         keyboardType="email-address"
         autoCapitalize="none"
@@ -46,7 +46,7 @@ const RegistrarConta = () => {
       />
 
       <TextInput
-        style={styles.input}
+        style={{width: '80%', height: 40, borderWidth: 1, borderRadius: 5, paddingHorizontal: 10, marginBottom: 10,}}
         placeholder="Senha"
         secureTextEntry
         value={senha}
@@ -54,7 +54,7 @@ const RegistrarConta = () => {
       />
 
       <TextInput
-        style={styles.input}
+        style={{width: '80%', height: 40, borderWidth: 1, borderRadius: 5, paddingHorizontal: 10, marginBottom: 10,}}
         placeholder="Confirmar Senha"
         secureTextEntry
         value={confirmarSenha}
@@ -72,31 +72,8 @@ const RegistrarConta = () => {
         onDismiss={() => setSnackbarVisible(false)}
         duration={3000}
       >
-        Registro bem-sucedido! (Adicione aqui a lógica para navegar para a tela de login)
+        Registro bem-sucedido!
       </Snackbar>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  titulo: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  input: {
-    width: '80%',
-    height: 40,
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    marginBottom: 10,
-  },
-});
-
-export default RegistrarConta;
